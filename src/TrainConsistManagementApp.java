@@ -1,5 +1,6 @@
 import java.util.*;
 import java.util.stream.Collectors;
+import java.util.regex.*;
 
 // ===== Bogie Class (for UC7) =====
 class Bogie {
@@ -268,5 +269,31 @@ public class TrainConsistManagementApp {
         System.out.println("\nTotal Seating Capacity of Train: " + totalCapacity);
 
         System.out.println("\nUC10 aggregation completed...");
+        // ================= UC11 =================
+        System.out.println("\n===================================");
+        System.out.println("UC11 - Validate Train ID and Cargo Code");
+        System.out.println("===================================\n");
+
+// Sample inputs (can be changed)
+        String trainId = "TRN-1234";
+        String cargoCode = "PET-AB";
+
+// Define regex patterns
+        Pattern trainPattern = Pattern.compile("TRN-\\d{4}");
+        Pattern cargoPattern = Pattern.compile("PET-[A-Z]{2}");
+
+// Create matchers
+        Matcher trainMatcher = trainPattern.matcher(trainId);
+        Matcher cargoMatcher = cargoPattern.matcher(cargoCode);
+
+// Validate using matches() (IMPORTANT)
+        boolean isTrainValid = trainMatcher.matches();
+        boolean isCargoValid = cargoMatcher.matches();
+
+// Display results
+        System.out.println("Train ID: " + trainId + " -> " + (isTrainValid ? "Valid" : "Invalid"));
+        System.out.println("Cargo Code: " + cargoCode + " -> " + (isCargoValid ? "Valid" : "Invalid"));
+
+        System.out.println("\nUC11 validation completed...");
     }
 }
