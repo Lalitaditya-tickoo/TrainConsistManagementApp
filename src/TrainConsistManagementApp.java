@@ -182,5 +182,36 @@ public class TrainConsistManagementApp {
         }
 
         System.out.println("\nUC7 sorting completed...");
+        // ================= UC8 =================
+        System.out.println("\n===================================");
+        System.out.println("UC8 - Filter Passenger Bogies Using Streams");
+        System.out.println("===================================\n");
+
+// Reuse Bogie list (same as UC7)
+        List<Bogie> bogies = new ArrayList<>();
+
+        bogies.add(new Bogie("Sleeper", 72));
+        bogies.add(new Bogie("AC Chair", 56));
+        bogies.add(new Bogie("First Class", 24));
+        bogies.add(new Bogie("General", 90));
+
+// DISPLAY all bogies
+        System.out.println("All Bogies:");
+        for (Bogie b : bogies) {
+            System.out.println(b);
+        }
+
+// FILTER (capacity > 60)
+        List<Bogie> filteredBogies = bogies.stream()
+                .filter(b -> b.capacity > 60)
+                .toList();   // IMPORTANT (new list, original unchanged)
+
+// DISPLAY filtered bogies
+        System.out.println("\nFiltered Bogies (Capacity > 60):");
+        for (Bogie b : filteredBogies) {
+            System.out.println(b);
+        }
+
+        System.out.println("\nUC8 filtering completed...");
     }
 }
