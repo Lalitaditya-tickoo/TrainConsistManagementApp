@@ -1,4 +1,5 @@
 import java.util.*;
+import java.util.stream.Collectors;
 
 // ===== Bogie Class (for UC7) =====
 class Bogie {
@@ -213,5 +214,31 @@ public class TrainConsistManagementApp {
         }
 
         System.out.println("\nUC8 filtering completed...");
+        // ================= UC9 =================
+        System.out.println("\n===================================");
+        System.out.println("UC9 - Group Bogies by Type");
+        System.out.println("===================================\n");
+
+// Reuse bogie list (same style as UC7/UC8)
+        List<Bogie> bogiesForGrouping = new ArrayList<>();
+
+        bogiesForGrouping.add(new Bogie("Sleeper", 72));
+        bogiesForGrouping.add(new Bogie("AC Chair", 56));
+        bogiesForGrouping.add(new Bogie("First Class", 24));
+        bogiesForGrouping.add(new Bogie("Sleeper", 70));   // duplicate type
+        bogiesForGrouping.add(new Bogie("AC Chair", 55));  // duplicate type
+
+// GROUP using groupingBy (by name/type)
+        Map<String, List<Bogie>> groupedBogies = bogiesForGrouping.stream()
+                .collect(Collectors.groupingBy(b -> b.name));
+
+// DISPLAY grouped result
+        System.out.println("Grouped Bogies:");
+
+        for (Map.Entry<String, List<Bogie>> entry : groupedBogies.entrySet()) {
+            System.out.println(entry.getKey() + " : " + entry.getValue());
+        }
+
+        System.out.println("\nUC9 grouping completed...");
     }
 }
