@@ -141,5 +141,74 @@ public class TrainConsistManagementApp {
                 .allMatch(g -> !g.type.equals("Cylindrical") || g.cargo.equals("Petroleum"));
 
         System.out.println("\nUC12 Safety: " + (safe ? "SAFE" : "UNSAFE"));
+        // ================= UC13 =================
+        System.out.println("\n===================================");
+        System.out.println("UC13 - Performance Comparison (Loop vs Stream)");
+        System.out.println("===================================\n");
+
+// Create dataset
+        List<Bogie> dataset = new ArrayList<>();
+
+// small dataset (for normal test)
+        dataset.add(new Bogie("Sleeper", 72));
+        dataset.add(new Bogie("AC Chair", 56));
+        dataset.add(new Bogie("First Class", 24));
+        dataset.add(new Bogie("General", 90));
+
+// ---------------- LOOP FILTER ----------------
+        long startLoop = System.nanoTime();
+
+        List<Bogie> loopResult = new ArrayList<>();
+        for (Bogie b : dataset) {
+            if (b.capacity > 60) {
+                loopResult.add(b);
+            }
+        }
+
+        long endLoop = System.nanoTime();
+        long loopTime = endLoop - startLoop;
+
+// ---------------- STREAM FILTER ----------------
+        long startStream = System.nanoTime();
+
+        List<Bogie> streamResult = dataset.stream()
+                .filter(b -> b.capacity > 60)
+                .toList();
+
+        long endStream = System.nanoTime();
+        long streamTime = endStream - startStream;
+
+// ---------------- DISPLAY RESULTS ----------------
+        System.out.println("Loop Filter Result:");
+        loopResult.forEach(System.out::println);
+
+        System.out.println("\nStream Filter Result:");
+        streamResult.forEach(System.out::println);
+
+        System.out.println("\nLoop Time (ns): " + loopTime);
+        System.out.println("Stream Time (ns): " + streamTime);
+
+// ---------------- CONSISTENCY CHECK ----------------
+        System.out.println("\nResults Equal: " + (loopResult.size() == streamResult.size()));
+
+// ---------------- LARGE DATASET TEST ----------------
+        List<Bogie> largeDataset = new ArrayList<>();
+
+        for (int i = 0; i < 10000; i++) {
+            largeDataset.add(new Bogie("Type" + i, i % 100));
+        }
+
+        long startLarge = System.nanoTime();
+
+        List<Bogie> largeFiltered = largeDataset.stream()
+                .filter(b -> b.capacity > 60)
+                .toList();
+
+        long endLarge = System.nanoTime();
+
+        System.out.println("\nLarge Dataset Filtered Size: " + largeFiltered.size());
+        System.out.println("Large Dataset Time (ns): " + (endLarge - startLarge));
+
+        System.out.println("\nUC13 performance comparison completed...");
     }
 }
